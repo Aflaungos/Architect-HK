@@ -1136,6 +1136,56 @@ public static class ConfigGroup
                     o.AddComponent<EnemyInvulnerabilityMarker>();
                 }));
 
+    private static readonly ConfigType ContactDamage =
+    	ConfigurationManager.RegisterConfigType(
+            new BoolConfigType("ContactDamage", "Contact Damage",
+                (o, value) =>
+                {
+                    if (value.GetValue()) return;
+                    Object.Destroy(o.GetComponentInChildren<DamageHero>());
+                }));
+
+    private static readonly ConfigType CanAttack =
+	ConfigurationManager.RegisterConfigType(
+            new BoolConfigType("CanAttack", "Can Attack",
+                (o, value) =>
+                {
+                    var attackRange = o.transform.Find("Attack Range");
+		    var slashRange = o.transform.Find("Slash Range");
+		    var firingRange = o.transform.Find("Firing Range");
+		    var attackRegion = o.transform.Find("Attack Region");
+		    var chargeRegion = o.transform.Find("Charge Region");
+            	    var alertRegion = o.transform.Find("Alert Region");
+		    var lostheroRegion = o.transform.Find("Lost hero Region");
+            	    var evadeCheck = o.transform.Find("Evade Check");
+            	    var runCheck = o.transform.Find("Run Check");
+            	    var wallCheck = o.transform.Find("Wall Check");
+		    var headBox = o.transform.Find("Head Box");
+                        
+		    if (attackRange != null)
+                	attackRange.gameObject.SetActive(value.GetValue());
+		    if (slashRange != null)
+               		slashRange.gameObject.SetActive(value.GetValue());
+		    if (firingRange != null)
+               		firingRange.gameObject.SetActive(value.GetValue());
+      		    if (attackRegion != null)
+               		attackRegion.gameObject.SetActive(value.GetValue());
+		    if (chargeRegion != null)
+               		chargeRegion.gameObject.SetActive(value.GetValue());
+      		    if (alertRegion != null)
+               		alertRegion.gameObject.SetActive(value.GetValue());
+		    if (lostheroRegion != null)
+               		lostheroRegion.gameObject.SetActive(value.GetValue());
+       		    if (evadeCheck != null)
+               		evadeCheck.gameObject.SetActive(value.GetValue());
+      		    if (runCheck != null)
+               		runCheck.gameObject.SetActive(value.GetValue());
+       		    if (wallCheck != null)
+               		wallCheck.gameObject.SetActive(value.GetValue());
+		    if (headBox != null)
+               		headBox.gameObject.SetActive(value.GetValue());
+		}));
+
     public static readonly List<ConfigType> SimpleEnemies = GroupUtils.Merge(Visible, [
         ConfigurationManager.RegisterConfigType(
             new IntConfigType("Small Geo Drops", "small_money",
@@ -1177,7 +1227,9 @@ public static class ConfigGroup
                 {
                     if (!value.GetValue()) o.AddComponent<JournalKillDisablerMarker>();
                 } })),
-        Invincible
+        Invincible,
+	CanAttack,
+	ContactDamage
     ]);
 
     public static readonly List<ConfigType> Wingsmould = GroupUtils.Merge(SimpleEnemies, [
